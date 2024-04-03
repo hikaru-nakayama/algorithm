@@ -19,7 +19,7 @@ type Tree struct {
 }
 
 func (n *Node) String(id int) {
-	fmt.Printf("Self: %d Parent: %s Left %s Right %s\n", id, n.Parent, n.Left, n.Right)
+	fmt.Printf("Self: %d Parent: %s Left %s Right %s ", id, n.Parent, n.Left, n.Right)
 }
 
 func Start() {
@@ -58,7 +58,28 @@ func Start() {
 			}
 		}
 	}
+	deepList := tree.getDeep(0, 0, make([]int, totalNodeNum))
 	for i, n := range tree.Nodes {
 		n.String(i)
+		fmt.Printf("deep: %d\n", deepList[i])
 	}
+}
+
+func (t *Tree) getDeep(u int, p int, d []int) []int {
+	d[u] = p
+	if t.Nodes[u].Right != "-1" {
+		right, err := strconv.Atoi(t.Nodes[u].Right)
+		if err != nil {
+			fmt.Println("数字を入力せよ")
+		}
+		t.getDeep(right, p, d)
+	}
+	if t.Nodes[u].Left != "-1" {
+		right, err := strconv.Atoi(t.Nodes[u].Left)
+		if err != nil {
+			fmt.Println("数字を入力せよ")
+		}
+		t.getDeep(right, p+1, d)
+	}
+	return d
 }
