@@ -35,8 +35,8 @@ func Start() {
 		Nodes: make([]Node, totalNodeNum),
 	}
 	for i := range tree.Nodes {
-		tree.Nodes[i].Parent = "-1"
-		tree.Nodes[i].Right = "-1"
+		tree.Nodes[i].Parent = Nil
+		tree.Nodes[i].Right = Nil
 	}
 	for i := 0; i < totalNodeNum; i++ {
 		scanner.Scan()
@@ -55,8 +55,6 @@ func Start() {
 			tree.Nodes[ch].Parent = strconv.Itoa(i)
 			if j+1 < len(childs) {
 				tree.Nodes[ch].Right = childs[j+1]
-			} else {
-				tree.Nodes[ch].Right = Nil
 			}
 		}
 	}
