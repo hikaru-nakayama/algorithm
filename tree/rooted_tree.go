@@ -61,7 +61,8 @@ func Start() {
 	deepList := tree.getDeep(0, 0, make([]int, totalNodeNum))
 	for i, n := range tree.Nodes {
 		n.String(i)
-		fmt.Printf("deep: %d\n", deepList[i])
+		fmt.Printf("deep: %d ", deepList[i])
+		fmt.Printf("type: %s\n", n.getType())
 	}
 }
 
@@ -82,4 +83,14 @@ func (t *Tree) getDeep(u int, p int, d []int) []int {
 		t.getDeep(right, p+1, d)
 	}
 	return d
+}
+
+func (n *Node) getType() string {
+	if n.Left == "-1" {
+		return "leaf"
+	} else if n.Parent == "-1" {
+		return "root"
+	} else {
+		return "internal"
+	}
 }
