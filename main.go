@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	tree.Hello()
+	tree.Start()
 }
