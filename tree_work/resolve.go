@@ -73,6 +73,9 @@ func Start() {
 	fmt.Println("Inorder")
 	tree.inOrder(0)
 	fmt.Print("\n")
+	fmt.Println("Postorder")
+	tree.postOrder(0)
+	fmt.Print("\n")
 
 }
 
@@ -110,4 +113,22 @@ func (t *Tree) inOrder(u int) {
 		}
 		t.inOrder(right)
 	}
+}
+
+func (t *Tree) postOrder(u int) {
+	if t.Nodes[u].Left != "-1" {
+		left, err := strconv.Atoi(t.Nodes[u].Left)
+		if err != nil {
+			fmt.Println("数字を入力してください")
+		}
+		t.postOrder(left)
+	}
+	if t.Nodes[u].Right != "-1" {
+		right, err := strconv.Atoi(t.Nodes[u].Right)
+		if err != nil {
+			fmt.Println("数字を入力してください")
+		}
+		t.postOrder(right)
+	}
+	fmt.Printf("%d ", u)
 }
