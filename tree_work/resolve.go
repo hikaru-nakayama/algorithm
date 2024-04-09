@@ -61,8 +61,17 @@ func Start() {
 		tree.Nodes[right].Parent = inputs[0]
 	}
 
+	for i := 0; i < totalNodeNum; i++ {
+		node := tree.Nodes[i]
+		fmt.Printf("Node: %d Parent: %s Left: %s Right: %s\n", i, node.Parent, node.Left, node.Right)
+	}
+
+	fmt.Print("\n")
 	fmt.Println("Preorder")
 	tree.preOrder(0)
+	fmt.Print("\n")
+	fmt.Println("Inorder")
+	tree.inOrder(0)
 	fmt.Print("\n")
 
 }
@@ -82,5 +91,23 @@ func (t *Tree) preOrder(u int) {
 			fmt.Println("数字を入力してください")
 		}
 		t.preOrder(right)
+	}
+}
+
+func (t *Tree) inOrder(u int) {
+	if t.Nodes[u].Left != "-1" {
+		left, err := strconv.Atoi(t.Nodes[u].Left)
+		if err != nil {
+			fmt.Println("数字を入力してください")
+		}
+		t.inOrder(left)
+	}
+	fmt.Printf("%d ", u)
+	if t.Nodes[u].Right != "-1" {
+		right, err := strconv.Atoi(t.Nodes[u].Right)
+		if err != nil {
+			fmt.Println("数字を入力してください")
+		}
+		t.inOrder(right)
 	}
 }
