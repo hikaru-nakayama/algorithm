@@ -62,15 +62,14 @@ func Start() {
 	}
 
 	fmt.Println("Preorder")
-	fmt.Print("0 ")
 	tree.preOrder(0)
 	fmt.Print("\n")
 
 }
 
 func (t *Tree) preOrder(u int) {
+	fmt.Printf("%d ", u)
 	if t.Nodes[u].Left != "-1" {
-		fmt.Printf("%s ", t.Nodes[u].Left)
 		left, err := strconv.Atoi(t.Nodes[u].Left)
 		if err != nil {
 			fmt.Println("数字を入力してください")
@@ -78,7 +77,6 @@ func (t *Tree) preOrder(u int) {
 		t.preOrder(left)
 	}
 	if t.Nodes[u].Right != "-1" {
-		fmt.Printf("%s ", t.Nodes[u].Right)
 		right, err := strconv.Atoi(t.Nodes[u].Right)
 		if err != nil {
 			fmt.Println("数字を入力してください")
