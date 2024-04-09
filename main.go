@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/hikaru-nakayama/algorithm/rooted_tree"
+	treework "github.com/hikaru-nakayama/algorithm/tree_work"
 )
 
 func main() {
-	rooted_tree.Start()
+	treework.Start()
 }
