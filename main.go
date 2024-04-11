@@ -1,9 +1,9 @@
 package main
 
 import (
-	treework "github.com/hikaru-nakayama/algorithm/tree_work"
+	binarysearch "github.com/hikaru-nakayama/algorithm/binary_search"
 )
 
 func main() {
-	treework.Start()
+	binarysearch.Insert()
 }
