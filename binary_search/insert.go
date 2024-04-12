@@ -31,11 +31,6 @@ func Insert() {
 	}
 
 	tree := Tree{Nodes: make([]Node, totalNodeNum)}
-	for i := 0; i < totalNodeNum; i++ {
-		tree.Nodes[i].Key = Nil
-		tree.Nodes[i].Right = &Node{Key: Nil}
-		tree.Nodes[i].Left = &Node{Key: Nil}
-	}
 
 	for i := 0; i < totalNodeNum; i++ {
 		scanner.Scan()
@@ -48,6 +43,8 @@ func Insert() {
 		if i == 0 {
 			tree.Nodes[i].Key = key
 			tree.Nodes[i].Parent = &Node{Key: Nil}
+			tree.Nodes[i].Right = &Node{Key: Nil}
+			tree.Nodes[i].Left = &Node{Key: Nil}
 			continue
 		}
 
@@ -64,18 +61,20 @@ func Insert() {
 		}
 
 		cur.Parent = parent
+		cur.Right = &Node{Key: Nil}
+		cur.Left = &Node{Key: Nil}
+		cur.Key = key
 		if cur.Parent.Key < key {
 			cur.Parent.Right = cur
 		} else if cur.Parent.Key > key {
 			cur.Parent.Left = cur
 		}
-		cur.Key = key
 		tree.Nodes[i] = *cur
 
 	}
 
 	for _, node := range tree.Nodes {
-		fmt.Printf("Key: %d Parent: %d ", node.Key, node.Parent.Key)
+		fmt.Printf("Key: %d Parent: %d Left: %d Right: %d\n", node.Key, node.Parent.Key, node.Left.Key, node.Right.Key)
 	}
 	fmt.Print("\n")
 }
