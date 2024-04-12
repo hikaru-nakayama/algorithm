@@ -33,6 +33,8 @@ func Insert() {
 	tree := Tree{Nodes: make([]Node, totalNodeNum)}
 	for i := 0; i < totalNodeNum; i++ {
 		tree.Nodes[i].Key = Nil
+		tree.Nodes[i].Right = &Node{Key: Nil}
+		tree.Nodes[i].Left = &Node{Key: Nil}
 	}
 
 	for i := 0; i < totalNodeNum; i++ {
@@ -43,33 +45,37 @@ func Insert() {
 			fmt.Println("Input Number")
 		}
 
-		tree.Nodes[i] = Node{Key: key}
+		if i == 0 {
+			tree.Nodes[i].Key = key
+			tree.Nodes[i].Parent = &Node{Key: Nil}
+			continue
+		}
 
 		cur := &tree.Nodes[0] // index 0 を rootNode とする.
-		parent := cur
+		parent := &tree.Nodes[0]
 
 		for cur.Key != Nil {
+			parent = cur
 			if cur.Key < key {
-				parent = cur
 				cur = cur.Right
-			} else if cur.Key > key {
-				parent = cur
-				cur = cur.Left
 			} else {
-				break
+				cur = cur.Left
 			}
 		}
 
-		tree.Nodes[i].Parent = parent
+		cur.Parent = parent
 		if cur.Parent.Key < key {
-			tree.Nodes[i].Parent.Right = cur
+			cur.Parent.Right = cur
 		} else if cur.Parent.Key > key {
-			tree.Nodes[i].Parent.Left = cur
+			cur.Parent.Left = cur
 		}
+		cur.Key = key
+		tree.Nodes[i] = *cur
 
 	}
 
 	for _, node := range tree.Nodes {
-		fmt.Printf("Parent: %d", node.Parent.Key)
+		fmt.Printf("Key: %d Parent: %d ", node.Key, node.Parent.Key)
 	}
+	fmt.Print("\n")
 }
