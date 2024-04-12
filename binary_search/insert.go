@@ -72,9 +72,15 @@ func Insert() {
 		tree.Nodes[i] = *cur
 
 	}
+	tree.preOrder(tree.Nodes[0])
+}
 
-	for _, node := range tree.Nodes {
-		fmt.Printf("Key: %d Parent: %d Left: %d Right: %d\n", node.Key, node.Parent.Key, node.Left.Key, node.Right.Key)
+func (t *Tree) preOrder(n Node) {
+	if n.Left.Key != Nil {
+		t.preOrder(*n.Left)
 	}
-	fmt.Print("\n")
+	fmt.Printf("%d ", n.Key)
+	if n.Right.Key != Nil {
+		t.preOrder(*n.Right)
+	}
 }
