@@ -21,7 +21,7 @@ type Tree struct {
 
 var Nil = -1
 
-func Insert() {
+func Start() {
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	input := scanner.Text()

@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	binarysearch.Insert()
+	binarysearch.Start()
 }
