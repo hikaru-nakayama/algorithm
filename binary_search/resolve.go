@@ -35,9 +35,15 @@ func Start() {
 	for i := 0; i < totalNodeNum; i++ {
 		scanner.Scan()
 		inputs := strings.Split(scanner.Text(), " ")
+
 		key, err := strconv.Atoi(inputs[1])
 		if err != nil {
 			fmt.Println("Input Number")
+		}
+
+		if inputs[0] == "find" {
+			tree.search(key)
+			continue
 		}
 
 		if i == 0 {
@@ -83,4 +89,19 @@ func (t *Tree) preOrder(n Node) {
 	if n.Right.Key != Nil {
 		t.preOrder(*n.Right)
 	}
+}
+
+func (t *Tree) search(k int) {
+	cur := t.Nodes[0]
+	for cur.Key != Nil {
+		if cur.Key < k {
+			cur = *cur.Right
+		} else if cur.Key > k {
+			cur = *cur.Left
+		} else {
+			fmt.Println("yes")
+			return
+		}
+	}
+	fmt.Println("no")
 }
