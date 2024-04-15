@@ -2,6 +2,7 @@ package binarysearch
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -43,6 +44,9 @@ func Start() {
 
 		if inputs[0] == "find" {
 			tree.search(key)
+			continue
+		} else if inputs[0] == "delete" {
+			tree.delete(key)
 			continue
 		}
 
@@ -104,4 +108,67 @@ func (t *Tree) search(k int) {
 		}
 	}
 	fmt.Println("no")
+}
+
+func (t *Tree) searchNextNode(k int) (*Node, error) {
+	cur := t.Nodes[0]
+	for cur.Key != Nil {
+		if cur.Key < k {
+			cur = *cur.Right
+		} else if cur.Key > k {
+			cur = *cur.Left
+		} else {
+			return &cur, nil
+		}
+	}
+	return &Node{}, errors.New("not found")
+}
+
+func (t *Tree) searchNode(k int) (*Node, error) {
+	cur := t.Nodes[0]
+	for cur.Key != Nil {
+		if cur.Key < k {
+			cur = *cur.Right
+		} else if cur.Key > k {
+			cur = *cur.Left
+		} else {
+			return &cur, nil
+		}
+	}
+	return &Node{}, errors.New("not found")
+}
+
+func (t *Tree) delete(k int) {
+	node, err := t.searchNode(k)
+	if err != nil {
+		fmt.Printf("%s", err.Error())
+	}
+
+	if node.Left.Key == Nil {
+		child := node.Right
+		child.Parent = node.Parent
+		if node.Parent.Left == node {
+			node.Parent.Left = child
+		} else if node.Parent.Right == node {
+			node.Parent.Right = child
+		}
+	} else if node.Right.Key == Nil {
+		child := node.Left
+		child.Parent = node.Parent
+		if node.Parent.Left == node {
+			node.Parent.Left = child
+		} else if node.Parent.Right == node {
+			node.Parent.Right = child
+		}
+	} else {
+		targetNode, err := t.searchNextNode(k)
+		if err != nil {
+			fmt.Printf("%s", err.Error())
+		}
+		if targetNode.Right.Key != Nil {
+			targetNode.Parent.Left = targetNode.Right
+			targetNode.Right.Parent = targetNode.Parent
+		}
+		node.Key = targetNode.Key
+	}
 }
