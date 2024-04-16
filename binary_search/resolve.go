@@ -110,18 +110,25 @@ func (t *Tree) search(k int) {
 	fmt.Println("no")
 }
 
-func (t *Tree) searchNextNode(k int) (*Node, error) {
-	cur := t.Nodes[0]
-	for cur.Key != Nil {
-		if cur.Key < k {
-			cur = *cur.Right
-		} else if cur.Key > k {
-			cur = *cur.Left
-		} else {
-			return &cur, nil
-		}
+func (t *Tree) searchNextNode(n *Node) (*Node, error) {
+	if n.Right.Key != Nil {
+		return getMinimum(n), nil
 	}
-	return &Node{}, errors.New("not found")
+
+	parent := n.Parent
+	for parent.Key != Nil && n.Key == parent.Left.Key {
+		n = parent
+		parent = n.Parent
+	}
+
+	return parent, nil
+}
+
+func getMinimum(n *Node) *Node {
+	for n.Left.Key != Nil {
+		n = n.Left
+	}
+	return n
 }
 
 func (t *Tree) searchNode(k int) (*Node, error) {
@@ -161,7 +168,7 @@ func (t *Tree) delete(k int) {
 			node.Parent.Right = child
 		}
 	} else {
-		targetNode, err := t.searchNextNode(k)
+		targetNode, err := t.searchNextNode(node)
 		if err != nil {
 			fmt.Printf("%s", err.Error())
 		}
