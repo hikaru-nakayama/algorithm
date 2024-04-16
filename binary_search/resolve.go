@@ -83,7 +83,7 @@ func Start() {
 
 	}
 	tree.inOrder(tree.Nodes[0])
-	node, err := tree.searchNextNode(&tree.Nodes[0])
+	node, err := tree.searchNextNode(&tree.Nodes[7])
 	if err != nil {
 		fmt.Print("ss")
 	}
@@ -122,7 +122,7 @@ func (t *Tree) searchNextNode(n *Node) (*Node, error) {
 	}
 
 	parent := n.Parent
-	for parent.Key != Nil && n.Key == parent.Left.Key {
+	for parent.Key != Nil && n.Key != parent.Left.Key {
 		n = parent
 		parent = n.Parent
 	}
