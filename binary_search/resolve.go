@@ -116,7 +116,7 @@ func (t *Tree) searchNextNode(n Node) (*Node, error) {
 	}
 
 	parent := n.Parent
-	for parent.Key != Nil && n.Key != parent.Left.Key {
+	for parent.Key != Nil && n != *parent.Left {
 		n = *parent
 		parent = n.Parent
 	}
