@@ -161,7 +161,6 @@ func (t *Tree) delete(k int) {
 		child := node.Right
 		p := node.Parent
 		child.Parent = p
-		fmt.Printf("node: %d parent: %d chld: %d\n", node.Key, p.Key, child.Key)
 		if p.Left.Key == node.Key {
 			p.Left = child
 		} else if p.Right.Key == node.Key {
@@ -169,11 +168,12 @@ func (t *Tree) delete(k int) {
 		}
 	} else if node.Right.Key == Nil {
 		child := node.Left
-		child.Parent = node.Parent
-		if node.Parent.Left == node {
-			node.Parent.Left = child
-		} else if node.Parent.Right == node {
-			node.Parent.Right = child
+		p := node.Parent
+		child.Parent = p
+		if p.Left.Key == node.Key {
+			p.Left = child
+		} else if p.Right.Key == node.Key {
+			p.Right = child
 		}
 	} else {
 		targetNode, err := t.searchNextNode(node)
