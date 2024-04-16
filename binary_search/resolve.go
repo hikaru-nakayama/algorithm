@@ -83,7 +83,7 @@ func Start() {
 
 	}
 	tree.inOrder(tree.Nodes[0])
-	node, err := tree.searchNextNode(&tree.Nodes[7])
+	node, err := tree.searchNextNode(&tree.Nodes[0])
 	if err != nil {
 		fmt.Print("ss")
 	}
@@ -122,7 +122,7 @@ func (t *Tree) searchNextNode(n *Node) (*Node, error) {
 	}
 
 	parent := n.Parent
-	for parent.Key != Nil && n.Key != parent.Left.Key {
+	for parent.Key != Nil && n != parent.Left {
 		n = parent
 		parent = n.Parent
 	}
@@ -159,11 +159,13 @@ func (t *Tree) delete(k int) {
 
 	if node.Left.Key == Nil {
 		child := node.Right
-		child.Parent = node.Parent
-		if node.Parent.Left == node {
-			node.Parent.Left = child
-		} else if node.Parent.Right == node {
-			node.Parent.Right = child
+		p := node.Parent
+		child.Parent = p
+		fmt.Printf("node: %d parent: %d chld: %d\n", node.Key, p.Key, child.Key)
+		if p.Left.Key == node.Key {
+			p.Left = child
+		} else if p.Right.Key == node.Key {
+			p.Right = child
 		}
 	} else if node.Right.Key == Nil {
 		child := node.Left
