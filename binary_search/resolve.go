@@ -83,12 +83,6 @@ func Start() {
 
 	}
 	tree.inOrder(tree.Nodes[0])
-	node, err := tree.searchNextNode(&tree.Nodes[0])
-	if err != nil {
-		fmt.Print("ss")
-	}
-	fmt.Print("\n")
-	fmt.Printf("next node is %d\n", node.Key)
 }
 
 func (t *Tree) inOrder(n Node) {
@@ -116,14 +110,14 @@ func (t *Tree) search(k int) {
 	fmt.Println("no")
 }
 
-func (t *Tree) searchNextNode(n *Node) (*Node, error) {
+func (t *Tree) searchNextNode(n Node) (*Node, error) {
 	if n.Right.Key != Nil {
 		return getMinimum(n.Right), nil
 	}
 
 	parent := n.Parent
-	for parent.Key != Nil && n != parent.Left {
-		n = parent
+	for parent.Key != Nil && n.Key != parent.Left.Key {
+		n = *parent
 		parent = n.Parent
 	}
 
@@ -138,14 +132,14 @@ func getMinimum(n *Node) *Node {
 }
 
 func (t *Tree) searchNode(k int) (*Node, error) {
-	cur := t.Nodes[0]
+	cur := &t.Nodes[0]
 	for cur.Key != Nil {
 		if cur.Key < k {
-			cur = *cur.Right
+			cur = cur.Right
 		} else if cur.Key > k {
-			cur = *cur.Left
+			cur = cur.Left
 		} else {
-			return &cur, nil
+			return cur, nil
 		}
 	}
 	return &Node{}, errors.New("not found")
@@ -161,29 +155,28 @@ func (t *Tree) delete(k int) {
 		child := node.Right
 		p := node.Parent
 		child.Parent = p
-		if p.Left.Key == node.Key {
+		if p.Left == node {
 			p.Left = child
-		} else if p.Right.Key == node.Key {
+		} else if p.Right == node {
 			p.Right = child
 		}
 	} else if node.Right.Key == Nil {
 		child := node.Left
 		p := node.Parent
 		child.Parent = p
-		if p.Left.Key == node.Key {
+		if p.Left == node {
 			p.Left = child
-		} else if p.Right.Key == node.Key {
+		} else if p.Right == node {
 			p.Right = child
 		}
 	} else {
-		targetNode, err := t.searchNextNode(node)
+		targetNode, err := t.searchNextNode(*node)
 		if err != nil {
 			fmt.Printf("%s", err.Error())
 		}
-		if targetNode.Right.Key != Nil {
-			targetNode.Parent.Left = targetNode.Right
-			targetNode.Right.Parent = targetNode.Parent
-		}
+
+		targetNode.Parent.Left = targetNode.Right
+		targetNode.Right.Parent = targetNode.Parent
 		node.Key = targetNode.Key
 	}
 }
