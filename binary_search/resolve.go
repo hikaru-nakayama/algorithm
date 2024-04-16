@@ -82,16 +82,22 @@ func Start() {
 		tree.Nodes[i] = *cur
 
 	}
-	tree.preOrder(tree.Nodes[0])
+	tree.inOrder(tree.Nodes[0])
+	node, err := tree.searchNextNode(&tree.Nodes[0])
+	if err != nil {
+		fmt.Print("ss")
+	}
+	fmt.Print("\n")
+	fmt.Printf("next node is %d\n", node.Key)
 }
 
-func (t *Tree) preOrder(n Node) {
+func (t *Tree) inOrder(n Node) {
 	if n.Left.Key != Nil {
-		t.preOrder(*n.Left)
+		t.inOrder(*n.Left)
 	}
 	fmt.Printf("%d ", n.Key)
 	if n.Right.Key != Nil {
-		t.preOrder(*n.Right)
+		t.inOrder(*n.Right)
 	}
 }
 
@@ -112,7 +118,7 @@ func (t *Tree) search(k int) {
 
 func (t *Tree) searchNextNode(n *Node) (*Node, error) {
 	if n.Right.Key != Nil {
-		return getMinimum(n), nil
+		return getMinimum(n.Right), nil
 	}
 
 	parent := n.Parent
